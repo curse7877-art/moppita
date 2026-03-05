@@ -28,10 +28,12 @@ Servidor local: `http://localhost:5173`
 2. Importe o repositorio na Vercel.
 3. Em `Environment Variables`, configure:
    - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` ou `SUPABASE_SECRET_KEY`
    - `ADMIN_USER` (opcional)
    - `ADMIN_PASSWORD` (opcional)
 4. Deploy.
+
+Use a chave privada de backend do Supabase. Nao use a `anon/public key`.
 
 `vercel.json` ja esta configurado com:
 - build command `npm run build`

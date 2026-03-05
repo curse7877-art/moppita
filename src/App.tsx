@@ -125,7 +125,7 @@ function Landing() {
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1]">
-              A ImportÃ¢ncia da <br />
+              A Importancia da <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">
                 Higiene Corporativa
               </span>
@@ -138,9 +138,9 @@ function Landing() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               {[
-                'Normas e LegislaÃ§Ã£o (NR 24 e NR 32)',
+                'Normas e Legislacao (NR 24 e NR 32)',
                 'Processos de limpeza eficientes',
-                'SeleÃ§Ã£o de produtos sustentÃ¡veis',
+                'Selecao de produtos sustentaveis',
                 'Treinamento e engajamento de equipes',
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
@@ -232,7 +232,7 @@ function Landing() {
                     </button>
 
                     <p className="text-xs text-center text-slate-400 mt-4 font-medium flex items-center justify-center gap-1">
-                      <ShieldCheck className="w-3 h-3" /> Seus dados estÃ£o 100% seguros conosco.
+                      <ShieldCheck className="w-3 h-3" /> Seus dados estao 100% seguros conosco.
                     </p>
                   </form>
                 </>
@@ -244,7 +244,7 @@ function Landing() {
                   </div>
                   <h3 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Tudo certo!</h3>
                   <p className="text-slate-600 mb-8 text-lg font-medium">
-                    O guia completo para profissionalizar a higiene da sua empresa jÃ¡ estÃ¡ disponÃ­vel.
+                    O guia completo para profissionalizar a higiene da sua empresa ja esta disponivel.
                   </p>
                   <button
                     onClick={handleDownload}
@@ -267,9 +267,9 @@ function Landing() {
         </div>
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">O que vocÃª vai aprender neste Ebook?</h2>
+            <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">O que voce vai aprender neste Ebook?</h2>
             <p className="text-slate-500 mt-4 max-w-2xl mx-auto text-lg">
-              Insights valiosos e estratÃ©gias prÃ¡ticas baseadas na experiÃªncia da Moppita no mercado corporativo.
+              Insights valiosos e estrategias praticas baseadas na experiencia da Moppita no mercado corporativo.
             </p>
           </div>
 
@@ -284,13 +284,13 @@ function Landing() {
               {
                 icon: TrendingUp,
                 title: 'Impacto no Cliente',
-                desc: 'Descubra como um ambiente impecÃ¡vel aumenta a satisfaÃ§Ã£o, fidelizaÃ§Ã£o e constrÃ³i uma reputaÃ§Ã£o sÃ³lida para a sua marca.',
+                desc: 'Descubra como um ambiente impecavel aumenta a satisfacao, fidelizacao e constroi uma reputacao solida para a sua marca.',
                 color: 'yellow',
               },
               {
                 icon: Leaf,
                 title: 'Sustentabilidade',
-                desc: 'Aprenda a selecionar produtos eco-friendly e a implementar prÃ¡ticas eficientes que preservam o meio ambiente e reduzem custos.',
+                desc: 'Aprenda a selecionar produtos eco-friendly e a implementar praticas eficientes que preservam o meio ambiente e reduzem custos.',
                 color: 'blue',
               },
             ].map((feature, idx) => (
@@ -349,7 +349,7 @@ function Admin() {
       if (response.status === 401) {
         setAuthToken(null);
         sessionStorage.removeItem('adminAuth');
-        setAuthError('UsuÃ¡rio ou senha invÃ¡lidos.');
+        setAuthError('Usuario ou senha invalidos.');
         setLeads([]);
         return;
       }
@@ -401,7 +401,7 @@ function Admin() {
             <Lock className="text-blue-600 w-6 h-6" />
             Acesso ao Admin
           </h1>
-          <p className="text-slate-500 mb-6">Informe usuÃ¡rio e senha para ver os leads capturados.</p>
+          <p className="text-slate-500 mb-6">Informe usuario e senha para ver os leads capturados.</p>
           {authError && <p className="text-red-600 text-sm mb-4">{authError}</p>}
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -411,7 +411,7 @@ function Admin() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
-              placeholder="UsuÃ¡rio"
+              placeholder="Usuario"
             />
             <input
               type="password"

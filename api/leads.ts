@@ -8,8 +8,9 @@ const getSupabaseConfig = () => {
   const rawBaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.SUPABASE_SECRET_KEY ??
     process.env.SUPABASE_SERVICE_KEY ??
-    process.env.SUPABASE_KEY;
+    process.env.SUPABASE_SECRET;
 
   if (!rawBaseUrl || !serviceRoleKey) {
     return null;
@@ -21,6 +22,26 @@ const getSupabaseConfig = () => {
     leadsUrl: `${baseUrl}/rest/v1/leads`,
     serviceRoleKey,
   };
+};
+
+const getSupabaseKeyRole = (key: string): string | null => {
+  if (key.startsWith('sb_secret_')) {
+    return 'service_role';
+  }
+
+  const parts = key.split('.');
+  if (parts.length !== 3) {
+    return null;
+  }
+
+  try {
+    const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8')) as {
+      role?: string;
+    };
+    return payload.role ?? null;
+  } catch {
+    return null;
+  }
 };
 
 const isAdminAuthorized = (authorizationHeader: string | undefined): boolean => {
@@ -65,7 +86,15 @@ export default async function handler(req: any, res: any) {
   if (!supabase) {
     return res.status(500).json({
       error:
-        'Backend nao configurado. Defina SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY (ou SUPABASE_SERVICE_KEY/SUPABASE_KEY) na Vercel.',
+        'Backend nao configurado. Defina SUPABASE_URL e uma chave privada do Supabase na Vercel.',
+    });
+  }
+
+  const keyRole = getSupabaseKeyRole(supabase.serviceRoleKey);
+  if (keyRole === 'anon') {
+    return res.status(500).json({
+      error:
+        'Configuracao invalida do Supabase. Use SUPABASE_SERVICE_ROLE_KEY ou SUPABASE_SECRET_KEY na Vercel, nao a anon/public key.',
     });
   }
 

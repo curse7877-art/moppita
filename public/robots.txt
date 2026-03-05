@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://moppitaebook.netlify.app/sitemap.xml
+Sitemap: https://SEU-DOMINIO.vercel.app/sitemap.xml

@@ -25,9 +25,7 @@ type Lead = {
   created_at: string;
 };
 
-const isLocalhost =
-  typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
-const leadsApiUrl = isLocalhost ? '/api/leads' : '/.netlify/functions/leads';
+const leadsApiUrl = '/api/leads';
 
 function Landing() {
   const [name, setName] = useState('');

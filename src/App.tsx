@@ -3,12 +3,14 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
+  BriefcaseBusiness,
   Building2,
   CheckCircle,
   Download,
   Leaf,
   Lock,
   Mail,
+  MapPin,
   Phone,
   ShieldCheck,
   Star,
@@ -22,15 +24,20 @@ type Lead = {
   name: string;
   email: string;
   phone: string;
+  city_state: string | null;
+  business_type: string | null;
   created_at: string;
 };
 
 const leadsApiUrl = '/api/leads';
+const businessTypeOptions = ['revenda', 'empresa terceirizada', 'consumidor final'];
 
 function Landing() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [cityState, setCityState] = useState('');
+  const [businessType, setBusinessType] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -49,7 +56,7 @@ function Landing() {
       const response = await fetch(leadsApiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone }),
+        body: JSON.stringify({ name, email, phone, cityState, businessType }),
       });
       if (response.ok) {
         setIsSubmitted(true);
@@ -220,6 +227,37 @@ function Landing() {
                         className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:bg-white outline-none transition-all text-slate-800 font-medium placeholder:font-normal"
                         placeholder="(11) 99999-9999"
                       />
+                    </div>
+
+                    <div className="relative">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                      <input
+                        type="text"
+                        required
+                        value={cityState}
+                        onChange={(e) => setCityState(e.target.value)}
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:bg-white outline-none transition-all text-slate-800 font-medium placeholder:font-normal"
+                        placeholder="Cidade - Estado"
+                      />
+                    </div>
+
+                    <div className="relative">
+                      <BriefcaseBusiness className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 pointer-events-none" />
+                      <select
+                        required
+                        value={businessType}
+                        onChange={(e) => setBusinessType(e.target.value)}
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:bg-white outline-none transition-all text-slate-800 font-medium appearance-none"
+                      >
+                        <option value="" disabled>
+                          Selecione o ramo de atividade
+                        </option>
+                        {businessTypeOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <button
@@ -474,6 +512,8 @@ function Admin() {
                     <th className="p-4 font-semibold text-slate-700">Nome</th>
                     <th className="p-4 font-semibold text-slate-700">E-mail</th>
                     <th className="p-4 font-semibold text-slate-700">WhatsApp</th>
+                    <th className="p-4 font-semibold text-slate-700">Cidade - Estado</th>
+                    <th className="p-4 font-semibold text-slate-700">Ramo de Atividade</th>
                     <th className="p-4 font-semibold text-slate-700">Data de Cadastro</th>
                   </tr>
                 </thead>
@@ -483,6 +523,8 @@ function Admin() {
                       <td className="p-4 text-slate-800 font-medium">{lead.name}</td>
                       <td className="p-4 text-slate-600">{lead.email}</td>
                       <td className="p-4 text-slate-600">{lead.phone}</td>
+                      <td className="p-4 text-slate-600">{lead.city_state ?? '-'}</td>
+                      <td className="p-4 text-slate-600">{lead.business_type ?? '-'}</td>
                       <td className="p-4 text-slate-500 text-sm">{new Date(lead.created_at).toLocaleString('pt-BR')}</td>
                     </tr>
                   ))}

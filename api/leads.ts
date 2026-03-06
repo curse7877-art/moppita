@@ -2,7 +2,13 @@ type LeadInput = {
   name?: string;
   email?: string;
   phone?: string;
+  cityState?: string;
+  businessType?: string;
+  city_state?: string;
+  business_type?: string;
 };
+
+const allowedBusinessTypes = new Set(['revenda', 'empresa terceirizada', 'consumidor final']);
 
 const getSupabaseConfig = () => {
   const rawBaseUrl = process.env.SUPABASE_URL;
@@ -104,9 +110,15 @@ export default async function handler(req: any, res: any) {
       const name = payload.name?.trim();
       const email = payload.email?.trim();
       const phone = payload.phone?.trim();
+      const cityState = payload.cityState?.trim() ?? payload.city_state?.trim();
+      const businessType = payload.businessType?.trim() ?? payload.business_type?.trim();
 
-      if (!name || !email || !phone) {
+      if (!name || !email || !phone || !cityState || !businessType) {
         return res.status(400).json({ error: 'Todos os campos sao obrigatorios' });
+      }
+
+      if (!allowedBusinessTypes.has(businessType)) {
+        return res.status(400).json({ error: 'Ramo de atividade invalido' });
       }
 
       const response = await fetch(supabase.leadsUrl, {
@@ -117,7 +129,7 @@ export default async function handler(req: any, res: any) {
           'Content-Type': 'application/json',
           Prefer: 'return=representation',
         },
-        body: JSON.stringify([{ name, email, phone }]),
+        body: JSON.stringify([{ name, email, phone, city_state: cityState, business_type: businessType }]),
       });
 
       if (!response.ok) {
@@ -139,7 +151,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const response = await fetch(
-      `${supabase.leadsUrl}?select=id,name,email,phone,created_at&order=created_at.desc`,
+      `${supabase.leadsUrl}?select=id,name,email,phone,city_state,business_type,created_at&order=created_at.desc`,
       {
         headers: {
           apikey: supabase.serviceRoleKey,
